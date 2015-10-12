@@ -40,9 +40,7 @@ $(function() {
 
 	$("#search").click("click", function() {//绑定查询按扭
 		var searchParams = $("#searchForm").serializeJson();
-		var accountName = $("#accountName").val();
-		alert("accountName:"+accountName+"   searchParams:"+searchParams);
-		/*grid.setOptions({
+		grid.setOptions({
 			data : searchParams
-		});*/
+		});
 	});

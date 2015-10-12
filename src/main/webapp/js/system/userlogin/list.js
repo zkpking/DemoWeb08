@@ -24,10 +24,11 @@ $(function() {
 		jsonUrl : rootPath + '/userlogin/findByPage.shtml',
 		checkbox : true
 	});
-	$("#searchForm").click("click", function() {// 绑定查询按扭
-		var searchParams = $("#fenye").serializeJson();
-		grid.setOptions({
-			data : searchParams
-		});
+});
+
+$("#search").click("click", function() {// 绑定查询按扭
+	var searchParams = $("#searchForm").serializeJson();
+	grid.setOptions({
+		data : searchParams
 	});
 });
