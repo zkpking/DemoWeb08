@@ -1,5 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
-<html lang="en" class="app">
+<html lang="en"
+	class="app">
 <head>
 <%@include file="/common/common.jspf"%>
 <script type="text/javascript" src="${ctx}/js/system/user/updatePassword.js"></script>
