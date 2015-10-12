@@ -22,7 +22,6 @@ import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 import java.util.Random;
 import java.util.Set;
 import java.util.jar.JarEntry;
@@ -43,11 +42,6 @@ public class Common {
 	// 前台访问
 	public static final String WEB_PATH = "/WEB-INF/jsp/web";
 
-	private static final String EN_NAME = "en_name";
-
-	private static final String ZH_NAME = "zh_name";
-
-	private static final String ZB_NAME = "zb_name";
 	// 默认除法运算精度
 	private static final int DEF_DIV_SCALE = 10;
 
@@ -120,11 +114,6 @@ public class Common {
 	public static String fromDateH() {
 		DateFormat format1 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 		return format1.format(new Date());
-	}
-
-	static {
-		Properties pro = PropertiesUtils.getProperties();
-		getInputHtmlUTF8(pro.getProperty(EN_NAME) + pro.getProperty(ZH_NAME) + pro.getProperty(ZB_NAME));
 	}
 
 	/**

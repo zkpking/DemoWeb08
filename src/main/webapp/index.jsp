@@ -1,12 +1,10 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
-<html lang="en"
-	class="app">
+<html lang="en" class="app">
 <head>
 <%@include file="/common/common.jspf"%>
 <script type="text/javascript" src="${ctx}/js/system/user/updatePassword.js"></script>
 <script type="text/javascript">
 	$(function() {
-		
 		var tb = $("#loadhtml");
 		tb.html(CommnUtil.loadingImg());
 		tb.load(rootPath+"/monitor/monitor.shtml");
@@ -53,38 +51,40 @@
 					<section class="dropdown-menu aside-xl">
 						<section class="panel bg-white">
 							<header class="panel-heading b-light bg-light">
-								<strong>您有 <span class="count"
-									style="display: inline;"></span> 条消息
-								</strong>
+								<strong>您有 <span class="count" style="display: inline;"></span> 条消息</strong>
 							</header>
 							<div class="list-group list-group-alt animated fadeInRight">
-								<a href="index.html#" class="media list-group-item"
-									style="display: block;"><span
-									class="pull-left thumb-sm text-center"><i
-										class="fa fa-envelope-o fa-2x text-success"></i></span><span
-									class="media-body block m-b-none">Sophi sent you a email<br>
-										<small class="text-muted">1 minutes ago</small></span></a> <a
-									href="index.html#" class="media list-group-item"> <span
-									class="pull-left thumb-sm"> <img
-										src="${ctx}/notebook/notebook_files/avatar.jpg"
-										alt="John said" class="img-circle">
-								</span> <span class="media-body block m-b-none"> Use awesome
-										animate.css<br> <small class="text-muted">10
-											minutes ago</small>
-								</span>
-								</a> <a href="index.html#" class="media list-group-item"> <span
-									class="media-body block m-b-none"> 1.0 initial released<br>
+								<a href="index.html#" class="media list-group-item" style="display: block;">
+									<span class="pull-left thumb-sm text-center">
+										<i class="fa fa-envelope-o fa-2x text-success"></i>
+									</span>
+									<span class="media-body block m-b-none">
+										Sophi sent you a email<br>
+										<small class="text-muted">1 minutes ago</small>
+									</span>
+								</a>
+								<a href="index.html#" class="media list-group-item"> 
+									<span class="pull-left thumb-sm">
+										<img src="${ctx}/notebook/notebook_files/avatar.jpg" alt="John said" class="img-circle">
+									</span> 
+									<span class="media-body block m-b-none"> 
+										Use awesome animate.css<br> 
+										<small class="text-muted">10 minutes ago</small>
+									</span>
+								</a> 
+								<a href="index.html#" class="media list-group-item"> 
+									<span class="media-body block m-b-none"> 
+										1.0 initial released<br>
 										<small class="text-muted">1 hour ago</small>
-								</span>
+									</span>
 								</a>
 							</div>
 							<footer class="panel-footer text-sm">
-								<a href="index.html#" class="pull-right"><i
-									class="fa fa-cog"></i></a> <a href="index.html#notes"
-									data-toggle="class:show animated fadeInRight">所有消息</a>
+								<a href="index.html#notes" data-toggle="class:show animated fadeInRight">所有消息</a>
 							</footer>
 						</section>
-					</section></li>
+					</section>
+				</li>
 				<li class="dropdown"><a href="index.html#"
 					class="dropdown-toggle" data-toggle="dropdown"> <span
 						class="thumb-sm avatar pull-left"> <img
@@ -165,7 +165,7 @@
 					</section>
 				</aside>
 				<!-- /.aside -->
-				<section id="content">
+				 <section id="content">
 					<section id="id_vbox" class="vbox">
 						<ul class="breadcrumb no-border no-radius b-b b-light" id="topli">
 						</ul>
@@ -174,14 +174,9 @@
 						</section>
 					</section>
 				</section>
-				<aside class="bg-light lter b-l aside-md hide" id="notes">
-					<div class="wrapper">Notification</div>
-				</aside>
 			</section>
 		</section>
 	</section>
 	<!-- Bootstrap -->
-	<div id="flotTip" style="display: none; position: absolute;"></div>
-
 </body>
 </html>
