@@ -118,7 +118,6 @@ public class BackgroundController extends BaseController {
 		ResFormMap resFormMap = new ResFormMap();
 		resFormMap.put("userId", userFormMap.get("id"));
 		List<ResFormMap> mps = resourcesMapper.findRes(resFormMap);
-		// List<ResFormMap> mps = resourcesMapper.findByWhere(new ResFormMap());
 		List<TreeObject> list = new ArrayList<TreeObject>();
 		for (ResFormMap map : mps) {
 			TreeObject ts = new TreeObject();

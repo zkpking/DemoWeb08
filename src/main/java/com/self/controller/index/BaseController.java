@@ -39,8 +39,8 @@ public class BaseController {
 		return pageView;
 	}
 
+	@SuppressWarnings("unchecked")
 	public <T> T toFormMap(T t, String pageNow, String pageSize) {
-		@SuppressWarnings("unchecked")
 		FormMap<String, Object> formMap = (FormMap<String, Object>) t;
 		formMap.put("paging", getPageView(pageNow, pageSize));
 		return t;
@@ -66,8 +66,6 @@ public class BaseController {
 		resQueryForm.put("parentId", id);
 		resQueryForm.put("userId", userId);
 		List<ResFormMap> rse = resourcesMapper.findRes(resQueryForm);
-		// List<ResFormMap> rse = resourcesMapper.findByAttribute("parentId",
-		// id, ResFormMap.class);
 		for (ResFormMap resFormMap : rse) {
 			Object o = resFormMap.get("description");
 			if (o != null && !Common.isEmpty(o.toString())) {
