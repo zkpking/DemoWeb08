@@ -82,8 +82,7 @@ var rootPath = "${ctx}";
  */
 function getSelectEx(byId,options){
 	if(byId && options){
-		if(options.url && options.textFiled 
-				&& options.valueFiled && options.name){
+		if(options.url && options.textFiled && options.valueFiled && options.name){
 			$.ajax({
 				type : "post", //使用get方法访问后台
 			    dataType : "json", //json格式的数据

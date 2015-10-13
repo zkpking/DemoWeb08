@@ -418,15 +418,6 @@
 				lia_3.innerHTML = '1...';
 				ulli_3.appendChild(lia_3);
 			}
-			/*if (endpage - startpage <= 0) {
-				var ulli_4 = document.createElement("li");
-				ulli_4.className = "active";
-				divul_2.appendChild(ulli_4);
-				var lia_4 = document.createElement("a");
-				lia_4.href = "javascript:void(0);";
-				lia_4.innerHTML = '1';
-				ulli_4.appendChild(lia_4);
-			}*/
 			for ( var i = startpage; i <= endpage; i++) {
 				if (i == pageNow) {
 					var ulli_5 = document.createElement("li");
@@ -447,7 +438,6 @@
 					ulli_5.appendChild(lia_5);
 				}
 				;
-
 			}
 			if (endpage != totalPages) {
 				var ulli_6 = document.createElement("li");
@@ -791,14 +781,7 @@
 			 });
 			 return ret;
 		};
-		var trClick = function() { // 设置行的背景色 兼容性问题很大
-			/*
-			 * var evt = arguments[0] || window.event; var tr = evt.srcElement ||
-			 * evt.currentTarget; var chkbox = getChkBox(tr);
-			 * if(chkbox.checked){ chkbox.checked = false; restoreBgColor(tr);
-			 * }else{ chkbox.checked=true; setBgColor(tr); }
-			 */
-		};
+		
 		var checkboxbind = function() { // 全选/反选
 			var evt = arguments[0] || window.event;
 			var chkbox = evt.srcElement || evt.target;
@@ -913,7 +896,6 @@
 		};
 		var rowline = function() {
 			var cb = [];
-
 			var arr = $A(divid.children[0].children.mytable.rows);
 			for ( var i = arr.length - 1; i > 0; i--) {
 				var cbox = getChkBox(arr[i]).value;
@@ -932,13 +914,6 @@
 		 * 
 		 */
 		var pagesIndex = function(pagecode, pageNow, pageCount) {
-			/*
-			 * var pagecode = _getValueByName(jsonData,conf.pagecode) ==
-			 * undefined ? conf.pagecode
-			 * :_getValueByName(jsonData,conf.pagecode); var sten =
-			 * pagesIndex(pagecode, pageNow,totalPages); var
-			 * startpage=sten.start; var endpage=sten.end;
-			 */
 			pagecode = parseInt(pagecode);
 			pageNow = parseInt(pageNow);
 			pageCount = parseInt(pageCount);
@@ -1006,21 +981,3 @@
 		};
 	});
 })();
-// 利用js让头部与内容对应列宽度一致。
-var fixhead = function() {
-	// 获取表格的宽度
-	/*
-	 * $('#table_head').css('width',
-	 * $('.t_table').find('table:first').eq(0).width());
-	 */
-	for ( var i = 0; i <= $('.t_table .pp-list tr:last').find('td:last').index(); i++) {
-		$('.pp-list th').eq(i).css('width', ($('.t_table .pp-list tr:last').find('td').eq(i).width()) + 2);
-	}
-	/*
-	 * //当有横向滚动条时，需要此js，时内容滚动头部也能滚动。 //暂时不处理横向 $('.t_table').scroll(function() {
-	 * $('#table_head').css('margin-left', -($('.t_table').scrollLeft())); });
-	 */
-};
-$(window).resize(function() {
-	//fixhead();
-});
