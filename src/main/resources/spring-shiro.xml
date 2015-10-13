@@ -71,7 +71,7 @@
 				/404/** = anon
 				/error.jsp = anon
 				/js/** = anon
-				/layer-v1.9.2/** = anon
+				/layer-v2.0/** = anon
 				/notebook/** = anon
 				/login.shtml = anon
 				/denied.jsp = anon
