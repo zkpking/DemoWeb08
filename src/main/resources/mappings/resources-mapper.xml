@@ -11,7 +11,7 @@
 		id,
 		name,
 		parentId,
-		(select r.name from ly_resources r where r.id = ly_resources.parentId )
+		(select r.name from sys_resources r where r.id = sys_resources.parentId )
 		parentName,
 		resKey,
 		ishide,
@@ -24,22 +24,22 @@
 	<select id="findChildlists" resultType="com.self.entity.ResFormMap">
 		SELECT
 		<include refid="selectId" />
-		from ly_resources
+		from sys_resources
 		where parentId = #{id}
 	</select>
 	<!-- 获取该用户的权限 -->
 	<select id="findRes" parameterType="String" resultType="com.self.entity.ResFormMap">
 		SELECT
 		<include refid="selectId" />
-		from ly_resources where id in(
+		from sys_resources where id in(
 		select resId from
-		ly_res_user where 1=1
+		sys_res_user where 1=1
 		<if test="userId != null and userId != '' and userId != 0">
 		and userId = #{userId}
 		</if>
 		<if test="roleId != null and roleId != '' and roleId != 0">
 		and userId in (
-		      SELECT userId from ly_user_role where roleId = #{roleId}
+		      SELECT userId from sys_user_role where roleId = #{roleId}
 		   )
 		</if>
 		)
@@ -54,13 +54,13 @@
 		resultType="com.self.entity.ResFormMap">
 		SELECT
 		<include refid="selectId" />
-		from ly_resources where id in(
-		select resId from ly_res_user
+		from sys_resources where id in(
+		select resId from sys_res_user
 		where userId=#{userId})
 	</select>
 	<update id="updateSortOrder" parameterType="java.util.List">
           <foreach collection="list" item="item" index="index" open="" close="" separator=";">
-                update ly_resources
+                update sys_resources
                 <set>
                   level = #{item.level}
                 </set>
@@ -70,12 +70,12 @@
 	<!-- 删 -->
 	<delete id="deleteResourcesRole" parameterType="String">
 		delete from
-		ly_res_roles
+		sys_res_roles
 		where role_id=#{id}
 	</delete>
 
 	<insert id="addRoleRes">
-		insert into ly_res_roles (role_id,resc_id) value (#{roleId},#{resId})
+		insert into sys_res_roles (role_id,resc_id) value (#{roleId},#{resId})
 	</insert>
 
 </mapper>

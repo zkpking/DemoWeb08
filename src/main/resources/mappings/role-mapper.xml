@@ -19,7 +19,7 @@
 	<include refid="selectId"/>
 	 from ly_role
 		where ly_role.id
-		in (SELECT roleId FROM ly_user_role WHERE
+		in (SELECT roleId FROM sys_user_role WHERE
 		userId=#{userId})
 	</select>
 </mapper>

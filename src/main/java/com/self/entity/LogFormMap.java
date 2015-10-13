@@ -6,7 +6,7 @@ import com.self.util.FormMap;
 /**
  * 实体表
  */
-@TableSeg(tableName = "ly_log", id = "id")
+@TableSeg(tableName = "sys_log", id = "id")
 public class LogFormMap extends FormMap<String, Object> {
 
 	/**

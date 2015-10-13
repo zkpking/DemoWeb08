@@ -186,8 +186,7 @@ public class BackgroundController extends BaseController {
 	@RequestMapping(value = "logout", method = RequestMethod.GET)
 	public String logout() {
 		// 使用权限管理工具进行用户的退出，注销登录
-		SecurityUtils.getSubject().logout(); // session
-												// 会销毁，在SessionListener监听session销毁，清理权限缓存
+		SecurityUtils.getSubject().logout(); //session 会销毁，在SessionListener监听session销毁，清理权限缓存
 		return "redirect:login.shtml";
 	}
 
