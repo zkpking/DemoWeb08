@@ -981,3 +981,18 @@
 		};
 	});
 })();
+//利用js让头部与内容对应列宽度一致。
+var fixhead = function() {
+	// 获取表格的宽度
+	/*
+	 * $('#table_head').css('width',
+	 * $('.t_table').find('table:first').eq(0).width());
+	 */
+	for ( var i = 0; i <= $('.t_table .pp-list tr:last').find('td:last').index(); i++) {
+		$('.pp-list th').eq(i).css('width', ($('.t_table .pp-list tr:last').find('td').eq(i).width()) + 2);
+	}
+	/*
+	 * //当有横向滚动条时，需要此js，时内容滚动头部也能滚动。 //暂时不处理横向 $('.t_table').scroll(function() {
+	 * $('#table_head').css('margin-left', -($('.t_table').scrollLeft())); });
+	 */
+};

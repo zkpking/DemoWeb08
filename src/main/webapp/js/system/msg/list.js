@@ -16,7 +16,10 @@ $(function() {
 			name : "内容详情",
 		}, {
 			colkey : "sendTime",
-			name : "发送时间"
+			name : "发送时间",
+			renderData : function(rowindex,data, rowdata, column) {
+				return new Date(data).format("yyyy-MM-dd hh:mm:ss");
+			}
 		}],
 		jsonUrl : rootPath + '/msg/findByPage.shtml',
 		checkbox : true
