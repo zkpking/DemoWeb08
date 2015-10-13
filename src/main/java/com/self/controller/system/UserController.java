@@ -19,10 +19,6 @@ import com.self.plugin.PageView;
 import com.self.util.Common;
 import com.self.util.PasswordHelper;
 
-/**
- * 
- * @version 3.0v
- */
 @Controller
 @RequestMapping("/user/")
 public class UserController extends BaseController {

@@ -5,14 +5,13 @@ import com.self.util.FormMap;
 
 /**
  * 实体表
+ * 
  * @author kaider
  *
  */
 @TableSeg(tableName = "sys_log", id = "id")
 public class LogFormMap extends FormMap<String, Object> {
 
-	/**
-	 */
 	private static final long serialVersionUID = 1L;
 
 }

@@ -5,7 +5,6 @@ import java.util.List;
 /**
  * 已经实现民基本的 增,删,改,查接口,不需要重复写 所有mapper都继承这个BaseMapper
  * 
- * @version 3.0v
  */
 public interface BaseMapper {
 	/**
