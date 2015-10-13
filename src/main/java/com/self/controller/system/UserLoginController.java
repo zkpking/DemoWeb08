@@ -13,10 +13,6 @@ import com.self.entity.UserLoginFormMap;
 import com.self.plugin.PageView;
 import com.self.util.Common;
 
-/**
- * 
- * @version 3.0v
- */
 @Controller
 @RequestMapping("/userlogin/")
 public class UserLoginController extends BaseController {

@@ -1,8 +1,3 @@
-/**
- * @(#)ParameterException.java 2011-12-20 Copyright 2011 it.kedacom.com, Inc.
- *                             All rights reserved.
- */
-
 package com.self.exception;
 
 /**

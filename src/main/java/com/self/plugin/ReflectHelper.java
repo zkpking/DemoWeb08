@@ -3,7 +3,9 @@ package com.self.plugin;
 import java.lang.reflect.Field;
 
 /**
- * @author Administrator 反射工具
+ * 反射工具
+ * @author kaider
+ *
  */
 public class ReflectHelper {
 	/**

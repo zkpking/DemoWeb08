@@ -32,7 +32,6 @@ import com.self.util.FormMap;
  * 只有在参数列表中包括Page类型的参数时才进行分页查询。 在多参数的情况下，只对第一个Page类型的参数生效。
  * 另外，在参数列表中，Page类型的参数无需用@Param来标注
  * 
- * @version 3.0v
  */
 @SuppressWarnings({ "unchecked", "restriction" })
 @Intercepts({ @Signature(type = StatementHandler.class, method = "prepare", args = { Connection.class }) })

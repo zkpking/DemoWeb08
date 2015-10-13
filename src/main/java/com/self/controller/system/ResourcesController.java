@@ -23,10 +23,6 @@ import com.self.util.Common;
 import com.self.util.TreeObject;
 import com.self.util.TreeUtil;
 
-/**
- * 
- * @version 3.0v
- */
 @Controller
 @RequestMapping("/resources/")
 public class ResourcesController extends BaseController {

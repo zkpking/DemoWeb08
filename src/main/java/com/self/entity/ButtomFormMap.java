@@ -5,6 +5,8 @@ import com.self.util.FormMap;
 
 /**
  * 实体表
+ * @author kaider
+ *
  */
 @TableSeg(tableName = "sys_buttom", id = "id")
 public class ButtomFormMap extends FormMap<String, Object> {

@@ -37,8 +37,6 @@ import com.self.util.TreeUtil;
 
 /**
  * 进行管理后台框架界面的类
- * 
- * @version 3.0v
  */
 @Controller
 @RequestMapping("/")
@@ -50,9 +48,6 @@ public class BackgroundController extends BaseController {
 	@Inject
 	private UserLoginMapper userLoginMapper;
 
-	/**
-	 * @return
-	 */
 	@RequestMapping(value = "login", method = RequestMethod.GET, produces = "text/html; charset=utf-8")
 	public String login(HttpServletRequest request) {
 		request.removeAttribute("error");
@@ -69,7 +64,7 @@ public class BackgroundController extends BaseController {
 				request.setAttribute("error", "用户名或密码不能为空！");
 				return "/login";
 			}
-			// 想要得到 SecurityUtils.getSubject() 的对象．．访问地址必须跟ｓｈｉｒｏ的拦截地址内．不然后会报空指针
+			// 想要得到 SecurityUtils.getSubject() 的对象．．访问地址必须跟shiro的拦截地址内．不然后会报空指针
 			Subject user = SecurityUtils.getSubject();
 			// 用户输入的账号和密码,,存到UsernamePasswordToken对象中..然后由shiro内部认证对比,
 			// 认证执行者交由ShiroDbRealm中doGetAuthenticationInfo处理
@@ -105,10 +100,6 @@ public class BackgroundController extends BaseController {
 		return "redirect:index.shtml";
 	}
 
-	/**
-	 * @mod Ekko 2015-09-07
-	 * @throws Exception
-	 */
 	@RequestMapping("index")
 	public String index(Model model) throws Exception {
 		// 获取登录的bean

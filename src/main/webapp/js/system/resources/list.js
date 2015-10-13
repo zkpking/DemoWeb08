@@ -48,12 +48,6 @@ $(function() {
 			pid: "parentId"
 		}
 	});
-	$("#seach").click("click", function() {// 绑定查询按扭
-		var searchParams = $("#searchForm").serializeJson();
-		grid.setOptions({
-			data : searchParams
-		});
-	});
 	$("#addFun").click("click", function() {
 		addFun();
 	});

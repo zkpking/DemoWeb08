@@ -17,9 +17,6 @@ import com.self.plugin.PageView;
 import com.self.util.Common;
 import com.self.util.FormMap;
 
-/**
- * 
- */
 public class BaseController {
 	@Inject
 	private ResourcesMapper resourcesMapper;

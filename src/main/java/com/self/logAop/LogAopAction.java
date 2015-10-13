@@ -24,10 +24,8 @@ import com.self.util.Common;
 
 /**
  * 切点类
- * 
- * @author LJN
- * @since 2015-05-05 Pm 20:35
- * @version 1.0
+ * @author kaider
+ *
  */
 @Aspect
 @Component

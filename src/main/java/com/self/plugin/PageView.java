@@ -3,7 +3,7 @@ package com.self.plugin;
 import java.util.List;
 
 /**
- * //分页封装函数
+ * 分页封装函数
  * 
  * @param <T>
  */

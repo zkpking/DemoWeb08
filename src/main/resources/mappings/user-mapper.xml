@@ -13,8 +13,8 @@
 		accountName,
 		(select group_concat(name) from sys_role
 		where sys_role.id
-		in (SELECT roleId FROM ly_user_role WHERE
-		userId=ly_user.id) ) roleName,
+		in (SELECT roleId FROM sys_user_role WHERE
+		userId=sys_user.id) ) roleName,
 		password,
 		description,
 		locked,

@@ -5,6 +5,8 @@ import com.self.util.FormMap;
 
 /**
  * 实体表
+ * @author kaider
+ *
  */
 @TableSeg(tableName = "sys_res_user", id = "userId")
 public class ResUserFormMap extends FormMap<String, Object> {
