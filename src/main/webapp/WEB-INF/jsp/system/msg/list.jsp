@@ -9,7 +9,7 @@
 				<label class="control-label"> <span
 					class="h4 font-thin v-middle">消息名:</span></label> <input
 					class="input-medium ui-autocomplete-input" id="name"
-					name="msgFormMap.name">
+					name="messageFormMap.name">
 			</div>
 			<a href="javascript:void(0)" class="btn btn-default" id="search">查询</a>
 		</form>
