@@ -5,24 +5,34 @@
 <script type="text/javascript" src="${ctx}/js/system/user/updatePassword.js"></script>
 <script type="text/javascript">
 	$(function() {
+		var winwidth = $("body").width();
+			if (winwidth < 770) {
+				$("#nav ul.lt li").click(function() {
+					$("#nav").removeClass("nav-off-screen");
+				});
+			}
 		var tb = $("#loadhtml");
 		tb.html(CommnUtil.loadingImg());
-		tb.load(rootPath+"/monitor/monitor.shtml");
-		$("[nav-n]").each(function () {
-			$(this).bind("click",function(){
-				var nav = $(this).attr("nav-n");
-				var sn = nav.split(",");
-				var html = '<li><i class="fa fa-home"></i>';
-					html+='<a href="index.shtml">Home</a></li>';
-					for(var i=0;i<2;i++){
-						html+='<li><a href="javascript:void(0)">'+sn[i]+'</a></li>';
-					}
-				$("#topli").html(html);
-				var tb = $("#loadhtml");
-					tb.html(CommnUtil.loadingImg());
-					tb.load(rootPath+sn[2]);
-			});
-		});
+		tb.load(rootPath + "/monitor/monitor.shtml");
+		$("[nav-n]").each(
+				function() {
+					$(this).bind(
+							"click",
+							function() {
+								var nav = $(this).attr("nav-n");
+								var sn = nav.split(",");
+								var html = '<li><i class="fa fa-home"></i>';
+								html += '<a href="index.shtml">Home</a></li>';
+								for (var i = 0; i < 2; i++) {
+									html += '<li><a href="javascript:void(0)">'
+											+ sn[i] + '</a></li>';
+								}
+								$("#topli").html(html);
+								var tb = $("#loadhtml");
+								tb.html(CommnUtil.loadingImg());
+								tb.load(rootPath + sn[2]);
+							});
+				});
 	});
 </script>
 </head>
