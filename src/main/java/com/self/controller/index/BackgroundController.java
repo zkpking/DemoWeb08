@@ -4,13 +4,20 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.InputStreamReader;
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
+import org.apache.ibatis.io.Resources;
+import org.apache.ibatis.jdbc.ScriptRunner;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.ExcessiveAttemptsException;
@@ -27,9 +34,11 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.self.entity.ResFormMap;
+import com.self.entity.RoleFormMap;
 import com.self.entity.UserFormMap;
 import com.self.entity.UserLoginFormMap;
 import com.self.mapper.ResourcesMapper;
+import com.self.mapper.RoleMapper;
 import com.self.mapper.UserLoginMapper;
 import com.self.util.Common;
 import com.self.util.TreeObject;
@@ -47,6 +56,9 @@ public class BackgroundController extends BaseController {
 
 	@Inject
 	private UserLoginMapper userLoginMapper;
+	
+	@Inject
+	private RoleMapper roleMapper;
 
 	@RequestMapping(value = "login", method = RequestMethod.GET, produces = "text/html; charset=utf-8")
 	public String login(HttpServletRequest request) {
@@ -102,24 +114,26 @@ public class BackgroundController extends BaseController {
 
 	@RequestMapping("index")
 	public String index(Model model) throws Exception {
-		// 获取登录的bean
-		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
-				.getRequest();
-		UserFormMap userFormMap = (UserFormMap) Common.findUserSession(request);
-		ResFormMap resFormMap = new ResFormMap();
-		resFormMap.put("userId", userFormMap.get("id"));
-		List<ResFormMap> mps = resourcesMapper.findRes(resFormMap);
+		HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
+ 		UserFormMap userFormMap = (UserFormMap)Common.findUserSession(request);
+ 		RoleFormMap roleFormMap = new RoleFormMap();
+ 		roleFormMap.put("userId", userFormMap.get("id"));
+ 		List<RoleFormMap> roles = roleMapper.seletUserRole(roleFormMap);
 		List<TreeObject> list = new ArrayList<TreeObject>();
-		for (ResFormMap map : mps) {
-			TreeObject ts = new TreeObject();
-			Common.flushObject(ts, map);
-			list.add(ts);
-		}
+		for (RoleFormMap role : roles) {
+			String roleId = String.valueOf(role.get("id"));
+			if(StringUtils.isNotBlank(roleId)){
+				List<ResFormMap> mps = resourcesMapper.findRoleResourcess(roleId);
+				for (ResFormMap map : mps) {
+					TreeObject ts = new TreeObject();
+					Common.flushObject(ts, map);
+					list.add(ts);
+				}
+			}
+ 		}
 		TreeUtil treeUtil = new TreeUtil();
 		List<TreeObject> ns = treeUtil.getChildTreeObjects(list, 0);
 		model.addAttribute("list", ns);
-		// 登陆的信息回传页面
-		model.addAttribute("userFormMap", userFormMap);
 		return "/index";
 	}
 
@@ -179,6 +193,29 @@ public class BackgroundController extends BaseController {
 		// 使用权限管理工具进行用户的退出，注销登录
 		SecurityUtils.getSubject().logout(); //session 会销毁，在SessionListener监听session销毁，清理权限缓存
 		return "redirect:login.shtml";
+	}
+	
+	@RequestMapping("install")
+	public String install() throws Exception {
+		try {
+			Properties props = Resources.getResourceAsProperties("jdbc.properties");
+			String url = props.getProperty("jdbc.url");
+			String driver = props.getProperty("jdbc.driverClass");
+			String username = props.getProperty("jdbc.username");
+			String password = props.getProperty("jdbc.password");
+			Class.forName(driver).newInstance();
+			Connection conn = (Connection) DriverManager.getConnection(url, username, password);
+			ScriptRunner runner = new ScriptRunner(conn);
+			runner.setErrorLogWriter(null);
+			runner.setLogWriter(null);
+			runner.runScript((new InputStreamReader(getClass().getResourceAsStream("/intall.sql"),"UTF-8")));
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "初始化失败！请联系管理员" + e;
+		}
+
+		return "/install";
 	}
 
 }

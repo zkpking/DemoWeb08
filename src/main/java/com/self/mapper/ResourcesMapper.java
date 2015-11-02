@@ -14,4 +14,5 @@ public interface ResourcesMapper extends BaseMapper {
 
 	public List<ResFormMap> findUserResourcess(String userId);
 
+	public List<ResFormMap> findRoleResourcess(String roleId);
 }

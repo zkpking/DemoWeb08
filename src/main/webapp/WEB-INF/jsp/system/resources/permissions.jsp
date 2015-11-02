@@ -104,7 +104,7 @@ html>body td {
 	function closeWin() {
 		layer.confirm('是否关闭窗口？', {
 			icon : 3,
-			offset : '-100px'
+			offset : '150px'
 		}, function(index) {
 			parent.layer.close(parent.pageii);
 			return false;
@@ -194,9 +194,8 @@ html>body td {
 		</table>
 		<br>
 		<div class="doc-buttons" style="text-align: center;">
-			<a href="#" class="btn btn-s-md btn-success btn-rounded"
-				onclick="sub()">保存</a> <a href="#"
-				class="btn btn-s-md btn-info btn-rounded" onclick="closeWin();">关闭</a>
+			<a href="#" class="btn btn-s-md btn-success btn-rounded" onclick="sub()">保存</a> 
+			<a href="#" class="btn btn-s-md btn-info btn-rounded" onclick="closeWin();">关闭</a>
 		</div>
 		<br>
 	</form>
