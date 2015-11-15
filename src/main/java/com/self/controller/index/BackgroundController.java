@@ -57,8 +57,8 @@ public class BackgroundController extends BaseController {
 	@Inject
 	private UserLoginMapper userLoginMapper;
 	
-	@Inject
-	private RoleMapper roleMapper;
+/*	@Inject
+	private RoleMapper roleMapper;*/
 
 	@RequestMapping(value = "login", method = RequestMethod.GET, produces = "text/html; charset=utf-8")
 	public String login(HttpServletRequest request) {
@@ -116,20 +116,15 @@ public class BackgroundController extends BaseController {
 	public String index(Model model) throws Exception {
 		HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
  		UserFormMap userFormMap = (UserFormMap)Common.findUserSession(request);
- 		RoleFormMap roleFormMap = new RoleFormMap();
- 		roleFormMap.put("userId", userFormMap.get("id"));
- 		List<RoleFormMap> roles = roleMapper.seletUserRole(roleFormMap);
+ 		ResFormMap resFormMap = new ResFormMap();
+ 		resFormMap.put("userId", userFormMap.get("id"));
+ 		List<ResFormMap> mps = resourcesMapper.findRes(resFormMap);
 		List<TreeObject> list = new ArrayList<TreeObject>();
-		for (RoleFormMap role : roles) {
-			String roleId = String.valueOf(role.get("id"));
-			if(StringUtils.isNotBlank(roleId)){
-				List<ResFormMap> mps = resourcesMapper.findRoleResourcess(roleId);
-				for (ResFormMap map : mps) {
-					TreeObject ts = new TreeObject();
-					Common.flushObject(ts, map);
-					list.add(ts);
-				}
-			}
+		for (ResFormMap map : mps) {
+			TreeObject ts = new TreeObject();
+			Common.flushObject(ts, map);
+			list.add(ts);
+			
  		}
 		TreeUtil treeUtil = new TreeUtil();
 		List<TreeObject> ns = treeUtil.getChildTreeObjects(list, 0);

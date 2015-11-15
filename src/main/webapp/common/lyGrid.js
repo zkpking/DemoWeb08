@@ -19,6 +19,8 @@
 			isFixed : false,//是否固定表头
 			usePage : true,// 是否分页
 			serNumber : false,// 是否显示序号
+			local:false,//是否本地分页,即返回所有数据,让前端分页
+			localData:[],//本地数据集
 			records : 'records',// 分页数据
 			pageNow : 'pageNow',// 当前页码 或 当前第几页
 			totalPages : 'pageCount',// 总页数
@@ -80,23 +82,32 @@
 		};
 		var returnData = '';
 		var jsonRequest = function() {
-			var json = '';
+			var json = {};
 			var p = {pageSize:conf.pageSize};
 			var d = $.extend(p, conf.data);
-			$.ajax({
-				type : 'POST',
-				async : conf.async,
-				data : d,
-				url : conf.jsonUrl,
-				dataType : 'json',
-				success : function(data) {
-					json = data;
-				},
-				error : function(msg) {
-					alert("数据异常！");
-					json = '';
-				}
-			});
+			if(conf.local){
+				json.records = conf.localData;
+				json.pageSize = conf.pageSize;
+				json.pageNow = 1;
+				json.totalRecords = 0;
+				json.totalPages = 0;
+			}else{
+				json='';
+				$.ajax({
+					type : 'POST',
+					async : conf.async,
+					data : d,
+					url : conf.jsonUrl,
+					dataType : 'json',
+					success : function(data) {
+						json = data;
+					},
+					error : function(msg) {
+						alert("列表数据异常！");
+						json = '';
+					}
+				});
+			}
 			return json;
 		};
 		var divid = "";
@@ -111,7 +122,6 @@
 			divid = typeof (id) == "string" ? document.getElementById(id) : id;
 			if (divid == "" || divid == undefined || divid == null) {
 				console.error("找不到 id= " + id + " 选择器！");
-				;
 				return;
 			}
 
@@ -120,19 +130,33 @@
 				cHeadTable(divid);
 			}
 			cBodyTh(divid);
-			cBodytb(divid, jsonData);
+			cBodytb(divid, returnData);
 			if (conf.usePage) {// 是否分页
-				fenyeDiv(divid, jsonData);
+				fenyeDiv(divid, returnData);
 			}
 		};
 		
-		var replayData = function(){
-			var jsonData = jsonRequest();
+		//如果是本地分页,排序时,,要导出一个js插件underscore.js
+		var replayData = function(o,key,sort){
+			if(o){
+				if(!(returnData!=''&&returnData.records.length>0)){
+					returnData = jsonRequest();
+				}
+				var _array =_.sortBy(returnData.records, key);
+				if(sort=="asc"){
+					returnData.records = _array.reverse();
+				}else{
+					eturnData.records=_array;
+				}
+							 
+			}else{
+				returnData = jsonRequest();
+			}
 			var id = conf.pagId;
 			divid = typeof (id) == "string" ? document.getElementById(id) : id;
-			cBodytb(divid, jsonData);
+			cBodytb(divid, returnData);
 			if (conf.usePage) {// 是否分页
-				fenyeDiv(divid, jsonData);
+				fenyeDiv(divid, returnData);
 			}
 		}
 		
@@ -140,6 +164,7 @@
 			var table = document.createElement("table");// 1.创建一个table表
 			table.id = "table_head";// 2.设置id属性
 			table.className = "pp-list table table-striped table-bordered";
+			table.setAttribute("style", "margin-bottom: 0px;");
 			divid.appendChild(table);
 			var thead = document.createElement('thead');
 			table.appendChild(thead);
@@ -170,7 +195,7 @@
 					var th = document.createElement('th');
 					th.setAttribute("style", "text-align:" + column[o].align + ";width: " + column[o].width + ";height:" + conf.theadHeight + ";vertical-align: middle;");
 					if(column[o].isSort){
-						th.innerHTML = column[o].name+'<img src='+rootPath+'"/images/up.png">';
+						th.innerHTML = column[o].name+'<span class="wj-glyph-up"></span>';
 					}else{
 						th.innerHTML = column[o].name;
 					}
@@ -203,7 +228,7 @@
 			
 			table2.id = "mytable";
 			table2.className = "pp-list table table-striped table-bordered";
-			table2.setAttribute("style", "width:"+conf.width);
+			table2.setAttribute("style", "table-layout: fixed;margin-bottom: 0px;width:"+conf.width);
 			tdiv.appendChild(table2);
 			var thead = document.createElement("thead");// 1.创建一个thead
 			table2.appendChild(thead);
@@ -236,7 +261,7 @@
 						var th = document.createElement('th');
 						var at = "text-align:" + column[o].align + ";width: " + column[o].width + ";height:" + conf.theadHeight + ";vertical-align: middle;";
 						if(column[o].isSort){
-							th.innerHTML = column[o].name+'<img title="'+column[o].colkey+',asc" src="'+rootPath+'/images/up.png">';
+							th.innerHTML = column[o].name+'<span class="wj-glyph-up" title="'+column[o].colkey+',asc"></span>';
 							th.onclick = sortBind.bind();
 							at+="cursor:pointer;";
 						}else{
@@ -255,7 +280,15 @@
 			var tbody = document.createElement("tbody");// 1.创建一个thead
 			divId.getElementsByTagName('table')[0].appendChild(tbody) ;
 			var json = _getValueByName(jsonData, conf.records);
-			$.each(json, function(d) {
+			var d = 0;
+			var e = json.length;
+			if(conf.local){
+				pNow = parseInt(_getValueByName(jsonData, conf.pageNow),10);
+				d = (pNow - 1) *conf.pageSize;
+				var e = pNow * conf.pageSize - 1;
+			}
+			
+			for(;d<=e;d++){
 				if(CommnUtil.notNull(json[d])){
 					var tr = document.createElement('tr');
 					tr.setAttribute("style", "line-height:" + conf.tbodyHeight + ";");
@@ -292,8 +325,7 @@
 					$.each(column, function(o) {
 						if (!column[o].hide || column[o].hide == undefined) {
 							var td_o = tr.insertCell(-1);
-							td_o.setAttribute("style", "text-align:" + column[o].align + ";width: " + column[o].width + ";vertical-align: middle;");
-
+							td_o.setAttribute("style", "text-align:" + column[o].align + ";width: " + column[o].width + ";vertical-align: middle;word-break: keep-all;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;");
 							var rowdata = json[d];
 							var clm = column[o].colkey;
 							var data = CommnUtil.notEmpty(_getValueByName(rowdata, clm));
@@ -349,12 +381,16 @@
 						}
 					}
 				}
-			});
+			};
 		}
 		var fenyeDiv = function(divid, jsonData) {
 			var totalRecords = _getValueByName(jsonData, conf.totalRecords);
 			var totalPages = _getValueByName(jsonData, conf.totalPages);
 			var pageNow = _getValueByName(jsonData, conf.pageNow);
+			if(conf.local){
+				totalRecords = jsonData.records.length;//总行数 
+				totalPages = Math.ceil(totalRecords / conf.pageSize);//总页数 	
+			}
 			var bdiv = document.createElement("div");
 			bdiv.setAttribute("style", "vertical-align: middle;");
 
@@ -807,10 +843,18 @@
 			var evt = arguments[0] || window.event;
 			var a = evt.srcElement || evt.target;
 			var page = a.id.split('_')[1];
-			conf.data = $.extend(conf.data, {
-				pageNow : page
+			if(conf.local){
+				returnData.pageNow=parseInt(page,10);
+				cBodytb(divid,returnData);
+				if (conf.usePage) {// 是否分页
+					fenyeDiv(divid, returnData);
+				}
+			}else{
+				conf.data = $.extend(conf.data, {
+					pageNow : page
 			});
 			replayData();
+			}
 		};
 		
 		var sortBind = function(){
@@ -823,18 +867,22 @@
 			}
 			var sc = "";
 			if(t[1]=="asc"){
-				th.src=rootPath+'/images/dp.png';
+				th.className="wj-glyph-down";
 				th.title=t[0]+",desc";
 				sc="desc";
 			}else{
-				th.src=rootPath+'/images/up.png';
+				th.className="wj-glyph-up";
 				th.title=t[0]+",asc";
 				sc="asc";
 			}
 			conf.data = $.extend(conf.data, {
 				column:t[0],sort:sc
 			});
-			replayData();
+			if(conf.local){
+				replayData('0',t[0],sc);
+			}else{
+				replayData();
+			}
 		}
 		var datatree = function() { // 页数
 			var evt = arguments[0] || window.event;
@@ -915,9 +963,9 @@
 		 * 
 		 */
 		var pagesIndex = function(pagecode, pageNow, pageCount) {
-			pagecode = parseInt(pagecode);
-			pageNow = parseInt(pageNow);
-			pageCount = parseInt(pageCount);
+			pagecode = parseInt(pagecode,10);
+			pageNow = parseInt(pageNow,10);
+			pageCount = parseInt(pageCount,10);
 			var startpage = pageNow - (pagecode % 2 == 0 ? pagecode / 2 - 1 : pagecode / 2);
 			var endpage = pageNow + pagecode / 2;
 			if (startpage < 1) {
@@ -969,16 +1017,63 @@
 			});
 			return arr;
 		};
+		
+		var selectTreeRow = function(pagId) {
+			var ck = getSelectedCheckbox(pagId);
+			var json = _getValueByName(returnData, conf.records);
+			var ret = [];
+			$.each(json, function(d) {
+				$.each(ck, function(c) {
+					if(ck[c] == _getValueByName(json[d], conf.checkValue)) {
+						ret.push(json[d]);
+					} else {
+						$.each(json[d].children, function(child){
+							if(ck[c] == _getValueByName(json[d].children[child], conf.checkValue)) {
+								ret.push(json[d].children[child]);
+							}
+						})
+					}
+				});
+			});
+			return ret;
+		};
+
+		var exportData = function(url){
+			var form=$("<form>");//定义一个form表单
+			form.attr("style","display:none");
+			form.attr("target","");
+			form.attr("method","post");
+			form.attr("action",rootPath + url);
+			$("body").append(form);//将表单放置在web中
+			var input1=$("<input>");
+			input1.attr("type","hidden");
+			input1.attr("name","exportData");
+			input1.attr("value",JSON.stringify(column));
+			form.append(input1);
+			var par=conf.data;
+			for(var p in par){
+				var input1=$("<input>");
+				input1.attr("type","hidden");
+				input1.attr("name",p);
+				input1.attr("value",par[p]);
+				form.append(input1);
+			}
+			form.submit();//表单提交 
+		}
+		
 		init();
 
 		return {
-			setOptions : setOptions,
-			loadData : loadData,
-			getSelectedCheckbox : getSelectedCheckbox,
+			setOptions : setOptions,//自定义条件查询
+			loadData : loadData,//重新加载数据
+			getSelectedCheckbox : getSelectedCheckbox,//获取选择的行的Checkbox值
 			selectRow : selectRow,// 选中行事件
-			lyGridUp : lyGridUp,
-			lyGridDown : lyGridDown,
-			rowline : rowline
+			selectTreeRow : selectTreeRow,
+			lyGridUp : lyGridUp,//上移
+			lyGridDown : lyGridDown,//下移
+			rowline : rowline,//
+			resultJSONData : jsonRequest,//返回列表的所有json数据
+			exportData:exportData//导出数据
 		};
 	});
 })();

@@ -78,8 +78,8 @@
 		insert into sys_res_roles (role_id,resc_id) value (#{roleId},#{resId})
 	</insert>
 
-	<select id="findRoleResourcess" parameterType="String" resultType="com.lanyuan.entity.ResFormMap">
+	<!-- <select id="findRoleResourcess" parameterType="String" resultType="com.lanyuan.entity.ResFormMap">
 		SELECT lr1.* FROM sys_resources lr1,sys_role_res lr2,sys_role lr3
 		WHERE lr1.id = lr2.resId AND lr2.roleId = lr3.id AND lr2.roleId = #{roleId}
-	</select>
+	</select> -->
 </mapper>

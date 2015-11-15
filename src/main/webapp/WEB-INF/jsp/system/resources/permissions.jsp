@@ -104,7 +104,7 @@ html>body td {
 	function closeWin() {
 		layer.confirm('是否关闭窗口？', {
 			icon : 3,
-			offset : '150px'
+			offset : '-100px'
 		}, function(index) {
 			parent.layer.close(parent.pageii);
 			return false;
